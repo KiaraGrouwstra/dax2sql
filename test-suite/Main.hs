@@ -1,10 +1,10 @@
--- Tasty makes it easy to test your code. It is a test framework that can
--- combine many different types of tests into one suite. See its website for
--- help: <http://documentup.com/feuerbach/tasty>.
+{-# LANGUAGE OverloadedStrings #-}
 import qualified Test.Tasty
--- Hspec is one of the providers for Tasty. It provides a nice syntax for
--- writing tests. Its website has more info: <https://hspec.github.io>.
-import Test.Tasty.Hspec
+import           Test.Tasty.Hspec
+import qualified SpreadsheetMLFormula as Formula
+import           Data.Attoparsec.Text
+
+-- https://hackage.haskell.org/package/sqlite-simple
 
 main :: IO ()
 main = do
@@ -14,4 +14,11 @@ main = do
 spec :: Spec
 spec = parallel $ do
     it "is trivially true" $ do
+        -- let query = "=1"
+        let query = "=SUM(Customers)"
+        -- let query = "=SUM(Customers[ID])"
+        let parsed = parseOnly Formula.formula query
+        case parsed of
+            Left str -> putStrLn str
+            Right res -> putStrLn $ show res
         True `shouldBe` True
