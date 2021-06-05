@@ -3,3 +3,5 @@
 # Stack generates the Cabal file from `package.yaml` through hpack.
 /*.cabal
 *.prof
+/dist-newstyle/
+
